@@ -6,7 +6,9 @@ $is_logged_in = is_logged_in();
 $user = null;
 if ($is_logged_in) {
     $user_id = $_SESSION['user_id'];
-    $query = "SELECT * FROM users WHERE id = ?";
+    $query = "SELECT u.*, p.plan_name FROM users u 
+              LEFT JOIN plans p ON u.plan_type = p.plan_type 
+              WHERE u.id = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "i", $user_id);
     mysqli_stmt_execute($stmt);
@@ -25,6 +27,7 @@ if ($is_logged_in) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/styles.css">
     <?php if (isset($additional_css)) echo $additional_css; ?>
+    <script src="<?php echo SITE_URL; ?>/assets/js/fontawesome.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -34,27 +37,13 @@ if ($is_logged_in) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav mr-auto">
                     <?php if ($is_logged_in): ?>
                         <li class="nav-item <?php echo isset($active_page) && $active_page === 'dashboard' ? 'active' : ''; ?>">
                             <a class="nav-link" href="<?php echo SITE_URL; ?>">Dashboard</a>
                         </li>
                         <li class="nav-item <?php echo isset($active_page) && $active_page === 'data_analysis' ? 'active' : ''; ?>">
-                            <a class="nav-link" href="#">Data Analysis</a>
-                        </li>
-                        <li class="nav-item <?php echo isset($active_page) && $active_page === 'upload_data' ? 'active' : ''; ?>">
-                            <a class="nav-link" href="#">Upload Data</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <?php echo htmlspecialchars($user['user_name']); ?>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <a class="dropdown-item" href="#">Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?php echo SITE_URL; ?>/auth/logout.php">Logout</a>
-                            </div>
+                            <a class="nav-link" href="<?php echo SITE_URL; ?>/data_analysis.php">Data Analysis</a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item <?php echo isset($active_page) && $active_page === 'login' ? 'active' : ''; ?>">
@@ -65,6 +54,39 @@ if ($is_logged_in) {
                         </li>
                     <?php endif; ?>
                 </ul>
+                
+                <?php if ($is_logged_in): ?>
+                <div class="profile-section d-flex align-items-center">
+                    <div class="token-display mr-3">
+                        <span class="token-count"><?php echo number_format($user['tokens_remaining']); ?></span>
+                        <span class="token-label">tokens</span>
+                    </div>
+                    
+                    <?php if ($user['plan_type'] == 'free'): ?> <!-- Free plan users can upgrade -->
+                    <a href="#" class="btn btn-sm btn-upgrade mr-3">Upgrade</a>
+                    <?php endif; ?>
+                    
+                    <div class="dropdown">
+                        <a class="profile-dropdown dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="profile-name"><?php echo htmlspecialchars($user['user_name']); ?></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header">
+                                <strong><?php echo htmlspecialchars($user['plan_name'] ?? 'Free Plan'); ?></strong>
+                            </div>
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="<?php echo SITE_URL; ?>/auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
+    
+    <!-- Bootstrap and jQuery dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -20,6 +20,9 @@ mysqli_set_charset($conn, "utf8mb4");
 define('SITE_NAME', 'RiemInsights – AI-Powered Data Analytics');
 define('SITE_URL', 'http://localhost/f1'); // Change this to your actual URL
 
+// API Configuration
+define('DEEPSEEK_API_KEY', 'sk-5fb382a23ea844229b08ca06dba7d6b9'); // Replace with your actual DeepSeek API key
+
 // Email Configuration for Password Reset
 define('MAIL_FROM', 'noreply@rieminsights.com');
 define('MAIL_FROM_NAME', 'RiemInsights');
