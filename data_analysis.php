@@ -194,7 +194,7 @@ include 'includes/header.php';
                                 <li>Enterprise-grade analysis</li>
                                 <li>Custom visualizations</li>
                                 <li>24/7 dedicated support</li>
-                                <li>API access</li>
+                         
                                 <li>Team collaboration</li>
                             </ul>
                             <button class="btn btn-primary plan-cta">Contact Sales</button>

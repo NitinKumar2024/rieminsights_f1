@@ -93,22 +93,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $valid_token) {
     <title>Reset Password - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        body {
-            padding-top: 50px;
-        }
-        .reset-password-container {
-            max-width: 450px;
-        }
-        .btn-reset {
-            width: 100%;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="reset-password-container">
+        <div class="auth-container reset-password-container">
             <div class="logo">
                 <h1>RiemInsights</h1>
                 <p>AI-Powered Data Analytics</p>
@@ -116,39 +106,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $valid_token) {
             
             <?php if (isset($errors['token'])): ?>
                 <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
                     <?php echo $errors['token']; ?>
-                    <p class="mt-3"><a href="forgot-password.php" class="btn btn-primary">Request New Reset Link</a></p>
+                    <p class="mt-4"><a href="forgot-password.php" class="btn btn-primary"><i class="fas fa-paper-plane mr-2"></i> Request New Reset Link</a></p>
                 </div>
             <?php elseif ($reset_success): ?>
                 <div class="alert alert-success">
+                    <i class="fas fa-check-circle mr-2"></i>
                     <p>Your password has been reset successfully!</p>
-                    <p class="mt-3"><a href="login.php" class="btn btn-primary">Login with New Password</a></p>
+                    <p class="mt-4"><a href="login.php" class="btn btn-primary"><i class="fas fa-sign-in-alt mr-2"></i> Login with New Password</a></p>
                 </div>
             <?php else: ?>
                 <?php if (isset($errors['db_error'])): ?>
-                    <div class="alert alert-danger"><?php echo $errors['db_error']; ?></div>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <?php echo $errors['db_error']; ?>
+                    </div>
                 <?php endif; ?>
                 
-                <p class="mb-4">Enter your new password below to reset your account password.</p>
+                <div class="auth-intro mb-4">
+                    <h4>Reset Your Password</h4>
+                    <p>Please create a new secure password for your account.</p>
+                </div>
                 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?token=' . $token . '&email=' . urlencode($email); ?>" method="post">
                     <div class="form-group">
                         <label for="password">New Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <div class="position-relative">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password (min. 8 characters)">
+                            <i class="password-toggle fas fa-eye-slash" onclick="togglePasswordVisibility('password')"></i>
+                        </div>
                         <?php if (isset($errors['password'])): ?>
                             <div class="error"><?php echo $errors['password']; ?></div>
                         <?php endif; ?>
+                        <div class="password-strength mt-2">
+                            <small class="text-muted">Password should be at least 8 characters and include letters, numbers, and special characters.</small>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="confirm_password">Confirm New Password</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                        <div class="position-relative">
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
+                            <i class="password-toggle fas fa-eye-slash" onclick="togglePasswordVisibility('confirm_password')"></i>
+                        </div>
                         <?php if (isset($errors['confirm_password'])): ?>
                             <div class="error"><?php echo $errors['confirm_password']; ?></div>
                         <?php endif; ?>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-reset">Reset Password</button>
+                    <button type="submit" class="btn btn-primary btn-reset">Reset Password <i class="fas fa-lock ml-2"></i></button>
+                    
+                    <div class="text-center mt-4">
+                        <p><a href="login.php"><i class="fas fa-arrow-left mr-1"></i> Back to Login</a></p>
+                    </div>
                 </form>
             <?php endif; ?>
         </div>
@@ -157,5 +168,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $valid_token) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.querySelector(`#${inputId}`).nextElementSibling;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
+        
+        // Add animation to the form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            if (form) {
+                form.classList.add('fadeIn');
+            }
+        });
+    </script>
 </body>
 </html>

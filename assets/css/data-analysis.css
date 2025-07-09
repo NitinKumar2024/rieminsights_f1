@@ -341,17 +341,48 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .file-upload-section {
-        padding: 20px;
+        padding: 30px;
     }
     
     .file-upload-container {
-        padding: 20px;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .data-analysis-container {
+        padding: 20px 0;
+    }
+    
+    .file-upload-section {
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .file-upload-container {
+        padding: 25px;
+    }
+    
+    .file-upload-icon {
+        font-size: 40px;
+    }
+    
+    .data-preview-section .table {
+        font-size: 14px;
+    }
+    
+    .chat-input {
+        font-size: 14px;
+    }
+    
+    .chat-header {
+        padding: 12px 15px;
     }
     
     .chat-messages {
-        height: 300px;
+        max-height: 300px;
     }
     
     .message-content {
@@ -364,6 +395,44 @@
     
     #alerts-container {
         width: calc(100% - 40px);
+    }
+}
+
+@media (max-width: 576px) {
+    .file-upload-section {
+        padding: 20px;
+    }
+    
+    .file-upload-container {
+        padding: 20px;
+    }
+    
+    .file-upload-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+    
+    .file-upload-text p {
+        font-size: 14px;
+    }
+    
+    .file-upload-btn {
+        width: 100%;
+    }
+    
+    .data-preview-section .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .data-preview-section .btn-group {
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .data-preview-section .btn-group .btn,
+    .data-preview-section .btn-group .form-control {
+        width: 100%;
     }
 }
 

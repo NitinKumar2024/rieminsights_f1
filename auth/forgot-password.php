@@ -116,22 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Forgot Password - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        body {
-            padding-top: 50px;
-        }
-        .forgot-password-container {
-            max-width: 450px;
-        }
-        .btn-reset {
-            width: 100%;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="forgot-password-container">
+        <div class="auth-container forgot-password-container">
             <div class="logo">
                 <h1>RiemInsights</h1>
                 <p>AI-Powered Data Analytics</p>
@@ -139,30 +129,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <?php if ($success): ?>
                 <div class="alert alert-success">
+                    <i class="fas fa-check-circle mr-2"></i>
                     <p>Password reset instructions have been sent to your email.</p>
                     <p>Please check your inbox and follow the instructions to reset your password.</p>
-                    <p class="mt-3"><a href="login.php" class="btn btn-primary">Return to Login</a></p>
+                    <p class="mt-4"><a href="login.php" class="btn btn-primary"><i class="fas fa-sign-in-alt mr-2"></i> Return to Login</a></p>
                 </div>
             <?php else: ?>
                 <?php if (isset($errors['db_error'])): ?>
-                    <div class="alert alert-danger"><?php echo $errors['db_error']; ?></div>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <?php echo $errors['db_error']; ?>
+                    </div>
                 <?php endif; ?>
                 
-                <p class="mb-4">Enter your email address below and we'll send you instructions to reset your password.</p>
+                <div class="auth-intro mb-4">
+                    <h4>Forgot Your Password?</h4>
+                    <p>Enter your email address below and we'll send you instructions to reset your password.</p>
+                </div>
                 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
+                        <label for="email">Email Address</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>" placeholder="Enter your registered email">
+                        </div>
                         <?php if (isset($errors['email'])): ?>
                             <div class="error"><?php echo $errors['email']; ?></div>
                         <?php endif; ?>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-reset">Send Reset Link</button>
+                    <button type="submit" class="btn btn-primary btn-reset">Send Reset Link <i class="fas fa-paper-plane ml-2"></i></button>
                     
-                    <div class="text-center mt-3">
-                        <p><a href="login.php">Back to Login</a></p>
+                    <div class="text-center mt-4">
+                        <p><a href="login.php"><i class="fas fa-arrow-left mr-1"></i> Back to Login</a></p>
                     </div>
                 </form>
             <?php endif; ?>
@@ -172,5 +174,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Add animation to the form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            if (form) {
+                form.classList.add('fadeIn');
+            }
+        });
+    </script>
 </body>
 </html>

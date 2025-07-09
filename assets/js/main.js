@@ -196,7 +196,8 @@ function processFileData(fileName, data, headers) {
     fileData = data;
     
     // Get a preview of the data (first 20 rows)
-    dataPreview = data.slice(0, 20);
+    // dataPreview = data.slice(0, 20);
+    dataPreview = data;
     
     // Save file to server
     saveFileToServer(fileName, data);
@@ -306,7 +307,7 @@ function displayDataPreview(data, headers) {
     tableHTML += '</tbody></table></div>';
     
     // Add note about preview
-    tableHTML += '<p class="text-muted"><small>Showing first 20 rows. NULL or missing values are highlighted in red.</small></p>';
+    tableHTML += '<p class="text-muted"><small>NULL or missing values are highlighted in red.</small></p>';
     
     // Update the container
     previewContainer.innerHTML = tableHTML;
@@ -773,7 +774,7 @@ function initChat() {
             }
             
             // Send to DeepSeek API
-            sendToDeepSeek(question, dataPreview);
+            sendToDeepSeek(question, fileData);
         });
     }
 }
@@ -781,7 +782,7 @@ function initChat() {
 /**
  * Send data to DeepSeek API
  * @param {string} question - The user's question
- * @param {Array} data - The data preview
+ * @param {Array} data - The complete file data
  */
 function sendToDeepSeek(question, data) {
     // Prepare the request data

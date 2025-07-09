@@ -82,26 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        body {
-            padding-top: 50px;
-        }
-        .login-container {
-            max-width: 450px;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 10px;
-        }
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="login-container">
+        <div class="auth-container login-container">
             <div class="logo">
                 <h1>RiemInsights</h1>
                 <p>AI-Powered Data Analytics</p>
@@ -115,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>" placeholder="Enter your email">
                     <?php if (isset($errors['email'])): ?>
                         <div class="error"><?php echo $errors['email']; ?></div>
                     <?php endif; ?>
@@ -124,7 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <div class="position-relative">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
+                        <i class="password-toggle fas fa-eye-slash" onclick="togglePasswordVisibility('password')"></i>
+                    </div>
                     <?php if (isset($errors['password'])): ?>
                         <div class="error"><?php echo $errors['password']; ?></div>
                     <?php endif; ?>
@@ -134,10 +123,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a href="forgot-password.php">Forgot Password?</a>
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-login">Login</button>
+                <button type="submit" class="btn btn-primary btn-login">Sign In <i class="fas fa-sign-in-alt ml-2"></i></button>
                 
-                <div class="text-center mt-3">
-                    <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+                <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="signup.php">Create Account</a></p>
+                </div>
+                
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <div class="social-buttons">
+                        <a href="#" class="social-button" title="Google Sign In (Coming Soon)">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-button" title="Microsoft Sign In (Coming Soon)">
+                            <i class="fab fa-microsoft"></i>
+                        </a>
+                        <a href="#" class="social-button" title="Apple Sign In (Coming Soon)">
+                            <i class="fab fa-apple"></i>
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
@@ -146,5 +150,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
 </body>
 </html>

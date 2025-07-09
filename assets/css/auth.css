@@ -1,0 +1,269 @@
+/* RiemInsights - Authentication Pages Stylesheet */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Global Styles for Auth Pages */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+    color: #4a5568;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Auth Container */
+.auth-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px;
+    transition: all 0.3s ease;
+}
+
+/* Logo Section */
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    color: #4e73df;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.logo p {
+    color: #718096;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 14px;
+}
+
+.form-control {
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.15);
+    outline: none;
+}
+
+.error {
+    color: #e53e3e;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 12px 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #3c5fd9 0%, #1a3ba8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 115, 223, 0.25);
+}
+
+.btn-login, .btn-signup, .btn-reset {
+    width: 100%;
+    padding: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Links */
+a {
+    color: #4e73df;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #224abe;
+    text-decoration: none;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Alerts */
+.alert {
+    position: relative;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #e6fffa;
+    color: #047481;
+    border-left: 4px solid #38b2ac;
+}
+
+.alert-danger {
+    background-color: #fff5f5;
+    color: #c53030;
+    border-left: 4px solid #e53e3e;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 30px 20px;
+        margin: 0 15px;
+    }
+    
+    .logo h1 {
+        font-size: 24px;
+    }
+    
+    .btn {
+        padding: 12px 16px;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-container {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Password Visibility Toggle */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 40px;
+    cursor: pointer;
+    color: #a0aec0;
+}
+
+.password-toggle:hover {
+    color: #4a5568;
+}
+
+/* Social Login Buttons (for future implementation) */
+.social-login {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.social-login p {
+    position: relative;
+    margin: 25px 0;
+    color: #718096;
+    font-size: 14px;
+}
+
+.social-login p:before,
+.social-login p:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 30%;
+    background-color: #e2e8f0;
+    top: 50%;
+}
+
+.social-login p:before {
+    left: 0;
+}
+
+.social-login p:after {
+    right: 0;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.social-button:hover {
+    background-color: #edf2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
