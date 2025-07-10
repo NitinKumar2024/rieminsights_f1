@@ -129,20 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p>Don't have an account? <a href="signup.php">Create Account</a></p>
                 </div>
                 
-                <div class="social-login">
-                    <p>Or continue with</p>
-                    <div class="social-buttons">
-                        <a href="#" class="social-button" title="Google Sign In (Coming Soon)">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-button" title="Microsoft Sign In (Coming Soon)">
-                            <i class="fab fa-microsoft"></i>
-                        </a>
-                        <a href="#" class="social-button" title="Apple Sign In (Coming Soon)">
-                            <i class="fab fa-apple"></i>
-                        </a>
-                    </div>
-                </div>
+               
             </form>
         </div>
     </div>
