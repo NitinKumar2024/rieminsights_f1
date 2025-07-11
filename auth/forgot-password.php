@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Send email
             // Uncomment the line below in a production environment
-            // mail($to, $subject, $message, $headers);
+             mail($to, $subject, $message, $headers);
             
             // For development, we'll just show success message
             $success = true;
