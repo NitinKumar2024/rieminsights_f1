@@ -3,7 +3,7 @@ require_once 'config.php';
 
 // Check if user is logged in
 if (!is_logged_in()) {
-    redirect(SITE_URL . '/auth/login.php');
+    redirect(SITE_URL . '/landing.php');
 }
 
 // Set active page for header

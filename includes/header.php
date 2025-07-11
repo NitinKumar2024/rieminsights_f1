@@ -35,7 +35,7 @@ if ($is_logged_in) {
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="<?php echo SITE_URL; ?>">
-                <i class="fas fa-chart-line mr-2"></i>RiemInsights
+                <img src="<?php echo SITE_URL; ?>/assets/images/logo.png" alt="RiemInsights Logo" height="40">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -48,9 +48,14 @@ if ($is_logged_in) {
                                 <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                             </a>
                         </li>
-                        <li class="nav-item <?php echo isset($active_page) && $active_page === 'data_analysis' ? 'active' : ''; ?>">
+                        <!-- <li class="nav-item <?php echo isset($active_page) && $active_page === 'data_analysis' ? 'active' : ''; ?>">
                             <a class="nav-link" href="<?php echo SITE_URL; ?>/data_analysis.php">
                                 <i class="fas fa-chart-bar mr-1"></i> Data Analysis
+                            </a>
+                        </li> -->
+                        <li class="nav-item <?php echo isset($active_page) && $active_page === 'ai_data_analysis' ? 'active' : ''; ?>">
+                            <a class="nav-link" href="<?php echo SITE_URL; ?>/ai_data_analysis.php">
+                                <i class="fas fa-robot mr-1"></i> AI Data Analysis
                             </a>
                         </li>
                     <?php else: ?>
@@ -91,8 +96,8 @@ if ($is_logged_in) {
                                 <i class="fas fa-crown mr-1 text-warning"></i>
                                 <strong><?php echo htmlspecialchars($user['plan_name'] ?? 'Free Plan'); ?></strong>
                             </div>
-                            <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i> Profile</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i> Settings</a>
+                            <a class="dropdown-item" href="<?php echo SITE_URL; ?>/profile.php"><i class="fas fa-user mr-2"></i> Profile</a>
+                           
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="<?php echo SITE_URL; ?>/auth/logout.php"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
                         </div>

@@ -68,9 +68,6 @@ You can modify the following settings in the `config.php` file:
 - For security reasons, update the default admin password in the database.
 - Consider implementing additional security measures like rate limiting and HTTPS in a production environment.
 
-## License
-
-This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
 ## Contact
 

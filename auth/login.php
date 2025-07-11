@@ -89,8 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <div class="auth-container login-container">
             <div class="logo">
-                <h1>RiemInsights</h1>
-                <p>AI-Powered Data Analytics</p>
+                <a href="<?php echo SITE_URL; ?>/landing.php" style="text-decoration: none;">
+                    <h1>RiemInsights</h1>
+                    <p>AI-Powered Data Analytics</p>
+                </a>
             </div>
             
             <?php echo display_flash_message('reset_success'); ?>
