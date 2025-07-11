@@ -163,14 +163,16 @@ function handleAnalyzeData($user_id, $request_data) {
     $stmt->execute();
     $stmt->close();
     
-    // Check for visualization code in the response
-    $visualization = extractVisualizationCode($ai_response);
+    // Check for visualization code in the response and remove it from the displayed text
+    $visualization = null;
+    $cleaned_response = $ai_response;
+    list($visualization, $cleaned_response) = extractVisualizationCode($ai_response);
     
     // Return response
     header('Content-Type: application/json');
     echo json_encode([
         'success' => true,
-        'response' => $ai_response,
+        'response' => $cleaned_response,
         'tokens_used' => $tokens_used,
         'tokens_remaining' => $new_tokens_remaining,
         'visualization' => $visualization
@@ -287,11 +289,14 @@ function callDeepSeekAPI($data) {
 }
 
 /**
- * Extract visualization code from AI response
+ * Extract visualization code from AI response and clean the response
  * @param string $response The AI response
- * @return array|null The visualization configuration or null if none found
+ * @return array An array containing [visualization_config, cleaned_response]
  */
 function extractVisualizationCode($response) {
+    $visualization = null;
+    $cleaned_response = $response;
+    
     // First, try to find a JSON chart configuration directly in the response
     if (preg_match('/```json\s*\n(.+?)\n```/s', $response, $json_matches)) {
         $json_str = $json_matches[1];
@@ -307,7 +312,14 @@ function extractVisualizationCode($response) {
                     $chart_config['options'] = [];
                 }
                 
-                return $chart_config;
+                $visualization = $chart_config;
+                
+                // Remove the JSON code block from the response
+                $cleaned_response = str_replace($json_matches[0], '', $cleaned_response);
+                // Clean up any references to the chart JSON
+                $cleaned_response = preg_replace('/Here\'s a chart visualization in JSON format[^:]*:/i', '', $cleaned_response);
+                $cleaned_response = preg_replace('/I\'ve created a chart for you[^:]*:/i', '', $cleaned_response);
+                $cleaned_response = preg_replace('/Here\'s the chart configuration[^:]*:/i', '', $cleaned_response);
             }
         } catch (Exception $e) {
             // If there's an error, continue to the next method
@@ -329,7 +341,13 @@ function extractVisualizationCode($response) {
                     ];
                 }
                 
-                return $chart_config;
+                $visualization = $chart_config;
+                
+                // Remove the JSON from the response
+                $cleaned_response = str_replace($direct_json[0], '', $cleaned_response);
+                // Clean up any references to the chart JSON
+                $cleaned_response = preg_replace('/Here\'s a chart visualization[^:]*:/i', '', $cleaned_response);
+                $cleaned_response = preg_replace('/I\'ve created a chart for you[^:]*:/i', '', $cleaned_response);
             }
         } catch (Exception $e) {
             // If there's an error, continue to the next method
@@ -341,6 +359,7 @@ function extractVisualizationCode($response) {
         preg_match('/```js\s*\n(.+?)\n```/s', $response, $matches)) {
         
         $code = $matches[1];
+        $js_code_block = $matches[0];
         
         // Check if code contains Chart.js configuration
         if (strpos($code, 'new Chart') !== false || strpos($code, 'Chart.') !== false) {
@@ -366,13 +385,19 @@ function extractVisualizationCode($response) {
                     $data = json_decode($data_str, true);
                     $options = json_decode($options_str, true);
                     
-                    // If successful, return the chart configuration
+                    // If successful, set the visualization
                     if ($data && $options) {
-                        return [
+                        $visualization = [
                             'type' => $type,
                             'data' => $data,
                             'options' => $options
                         ];
+                        
+                        // Remove the JavaScript code block from the response
+                        $cleaned_response = str_replace($js_code_block, '', $cleaned_response);
+                        // Clean up any references to the chart code
+                        $cleaned_response = preg_replace('/Here\'s a chart visualization in JavaScript[^:]*:/i', '', $cleaned_response);
+                        $cleaned_response = preg_replace('/I\'ve created a chart for you using Chart\.js[^:]*:/i', '', $cleaned_response);
                     }
                 } catch (Exception $e) {
                     // If there's an error, continue to the next method
@@ -384,6 +409,7 @@ function extractVisualizationCode($response) {
     // If we still haven't found a visualization, look for Python code and extract data
     if (preg_match('/```python\s*\n(.+?)\n```/s', $response, $py_matches)) {
         $python_code = $py_matches[1];
+        $py_code_block = $py_matches[0];
         
         // Check if it's matplotlib or seaborn code
         if (strpos($python_code, 'plt.') !== false || strpos($python_code, 'matplotlib') !== false || 
@@ -405,7 +431,7 @@ function extractVisualizationCode($response) {
             
             // Try to extract data from the Python code
             preg_match_all('/\[(\s*[\d\.\,\s]+)\]/', $python_code, $data_matches);
-            preg_match_all('/\[\s*([\'"](.*?)[\'"]\s*(,\s*[\'"].*?[\'"]\s*)*)\]/', $python_code, $label_matches);
+            preg_match_all('/\[\s*([\'"](.+?)[\'"]\s*(,\s*[\'"].+?[\'"]\s*)*)\]/', $python_code, $label_matches);
             
             if (!empty($data_matches[1])) {
                 $data_values = [];
@@ -418,7 +444,7 @@ function extractVisualizationCode($response) {
                 $data_labels = [];
                 if (!empty($label_matches[0])) {
                     $labels_str = $label_matches[0][0];
-                    preg_match_all('/[\'"](.*?)[\'"]/', $labels_str, $extracted_labels);
+                    preg_match_all('/[\'"](.+?)[\'"]/', $labels_str, $extracted_labels);
                     if (!empty($extracted_labels[1])) {
                         $data_labels = $extracted_labels[1];
                     }
@@ -432,7 +458,7 @@ function extractVisualizationCode($response) {
                 }
                 
                 // Create a basic chart configuration
-                return [
+                $visualization = [
                     'type' => $chart_type,
                     'data' => [
                         'labels' => $data_labels,
@@ -482,9 +508,19 @@ function extractVisualizationCode($response) {
                         ]
                     ]
                 ];
+                
+                // Remove the Python code block from the response
+                $cleaned_response = str_replace($py_code_block, '', $cleaned_response);
+                // Clean up any references to the chart code
+                $cleaned_response = preg_replace('/Here\'s a visualization using Python[^:]*:/i', '', $cleaned_response);
+                $cleaned_response = preg_replace('/I\'ve created a chart using matplotlib[^:]*:/i', '', $cleaned_response);
             }
         }
     }
     
-    return null;
+    // Clean up any extra whitespace and newlines from the response
+    $cleaned_response = preg_replace('/\n{3,}/', "\n\n", $cleaned_response);
+    $cleaned_response = trim($cleaned_response);
+    
+    return [$visualization, $cleaned_response];
 }

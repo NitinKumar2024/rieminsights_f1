@@ -295,7 +295,7 @@ function generateAISummary(data, fileName) {
     // Create the request data
     const requestData = {
         action: 'analyze_data',
-        question: 'Please provide a comprehensive summary of this dataset. Include information about the columns, value ranges, and any notable patterns or insights. Format your response in markdown. and do not include any charts',
+        question: 'Please provide a comprehensive summary of this dataset. Include information about the value ranges, and any notable patterns or insights. Format your response in markdown.',
         data: JSON.stringify(limitedData),
         file_name: fileName
     };

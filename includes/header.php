@@ -48,11 +48,7 @@ if ($is_logged_in) {
                                 <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                             </a>
                         </li>
-                        <!-- <li class="nav-item <?php echo isset($active_page) && $active_page === 'data_analysis' ? 'active' : ''; ?>">
-                            <a class="nav-link" href="<?php echo SITE_URL; ?>/data_analysis.php">
-                                <i class="fas fa-chart-bar mr-1"></i> Data Analysis
-                            </a>
-                        </li> -->
+
                         <li class="nav-item <?php echo isset($active_page) && $active_page === 'ai_data_analysis' ? 'active' : ''; ?>">
                             <a class="nav-link" href="<?php echo SITE_URL; ?>/ai_data_analysis.php">
                                 <i class="fas fa-robot mr-1"></i> AI Data Analysis

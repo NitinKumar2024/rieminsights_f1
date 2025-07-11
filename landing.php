@@ -19,7 +19,7 @@ if ($_POST['action'] == 'contact') {
     $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
     
     if ($name && $email && $message) {
-        $to = "info@RiemInsights.com";
+        $to = "info@riemInsights.com";
         $subject = "New Contact Form Submission - RiemInsights";
         $body = "Name: $name\n";
         $body .= "Email: $email\n";
@@ -91,10 +91,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_started') {
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.8rem;
             font-weight: bold;
             color: #667eea;
             text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
         }
 
         .nav-links {
@@ -319,11 +327,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_started') {
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo">RiemInsights</a>
+            <a href="#" class="logo">
+                <img src="assets/images/logo.png" alt="RiemInsights Logo">
+                RiemInsights
+            </a>
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="?action=get_started">Get Started</a></li>
+                <li><a href="?action=get_started">Get Started for Free</a></li>
             </ul>
         </nav>
     </header>
@@ -333,9 +344,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_started') {
             <h1>AI-Powered Data Analytics</h1>
             <p>Transform your spreadsheets into insights with natural language. No technical expertise required - just ask questions and get answers instantly.</p>
             <div class="cta-buttons">
-                <a href="?action=get_started" class="btn btn-primary">Get Started</a>
+                <a href="?action=get_started" class="btn btn-primary">Get Started for Free</a>
                 <a href="#contact" class="btn btn-secondary">Contact Us</a>
             </div>
+            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">No credit card required</p>
         </section>
 
         <section id="features" class="features">
@@ -400,7 +412,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_started') {
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 RiemInsights. All rights reserved. | Making data analysis accessible for everyone.</p>
+            <p>&copy; 2025 RiemInsights. All rights reserved. | Making data analysis accessible for everyone.</p>
         </div>
     </footer>
 
